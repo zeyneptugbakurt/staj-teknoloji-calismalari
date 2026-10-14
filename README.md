@@ -5,4 +5,4 @@ geliştirilen 22 küçük uygulamayı içermektedir.
 
 ## Çalışmalar
 
-- 01 - Node.js Hesap Makinesi
+1. [Node.js Hesap Makinesi](./01-nodejs-calculator/)
