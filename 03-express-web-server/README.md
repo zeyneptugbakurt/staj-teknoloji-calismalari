@@ -12,8 +12,10 @@ Node.js ve Express.js kullanılarak geliştirilen basit bir web sunucusu.
 - Express.js
 
 ## Çalıştırma
+```bash
 npm install
 node index.js
+```
 
 ## Adresler
 - http://localhost:3000
