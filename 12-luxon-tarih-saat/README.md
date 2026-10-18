@@ -1,4 +1,4 @@
-# 12. Proje — Luxon ile Tarih ve Saat İşlemleri
+# Luxon ile Tarih ve Saat İşlemleri
 
 Bu proje, JavaScript'te tarih ve saat işlemlerini kolaylaştıran **Luxon** kütüphanesini öğrenmek amacıyla hazırlanmıştır. Projede güncel tarih ve saat gösterme, tarih biçimlendirme, tarihe gün ekleme ve iki tarih arasındaki gün farkını hesaplama işlemleri gerçekleştirilmiştir.
 
