@@ -1,4 +1,4 @@
-# 11 - BullMQ İş Kuyruğu
+# BullMQ İş Kuyruğu
 
 ## Projenin Amacı
 BullMQ kullanarak Node.js üzerinde arka plan görevlerini bir iş kuyruğuna eklemek ve çalıştırmak.
