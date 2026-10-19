@@ -1,0 +1,14 @@
+{
+  "name": "nats-pubsub",
+  "version": "1.0.0",
+  "scripts": {
+    "subscriber": "node subscriber.js",
+    "publisher": "node publisher.js",
+    "responder": "node responder.js",
+    "requester": "node requester.js",
+    "worker": "node worker.js"
+  },
+  "dependencies": {
+    "nats": "^2.28.0"
+  }
+}
