@@ -1,33 +1,45 @@
 # OPA (Open Policy Agent) Yetkilendirme Demo
 
-Yetkilendirme kurallarını uygulama kodundan çıkarıp **Rego** politikası olarak yazdığımız küçük örnek.
+Yetkilendirme kurallarını uygulama kodundan çıkarıp Rego politikası olarak yazdığımız küçük örnek.
 
 - `policy/authz.rego` — rol tabanlı erişim kuralları
 - `policy/authz_test.rego` — politika birim testleri
 - `check.js` — OPA'nın REST API'sine soru soran Node istemcisi
 
-## Gereksinimler
+## Kurulum (macOS, Docker'sız)
 
-- Docker
-- Node.js 18+ (yerleşik `fetch` için)
-- (Opsiyonel) `opa` CLI — testleri yerelde çalıştırmak için
+```bash
+brew install opa
+opa version
+```
 
 ## Kurallar
 
 | Rol | İzin |
 |-----|------|
 | admin | Her şey |
-| editor | Makale okuma, oluşturma, güncelleme; sadece **kendi** makalesini silme |
+| editor | Makale okuma, oluşturma, güncelleme; sadece kendi makalesini silme |
 | viewer | Sadece makale okuma |
 
-## Çalıştırma
+## 1) Politika testlerini çalıştırma
 
-OPA sunucusunu başlatın:
+`opa-authz` klasöründe:
 ```bash
-docker compose up -d
+opa test ./policy -v
 ```
+5 testin de `PASS` olması beklenir.
 
-Sorguları çalıştırın:
+## 2) OPA sunucusunu başlatma
+
+Ayrı bir terminal sekmesinde, `opa-authz` klasöründe:
+```bash
+opa run --server --addr :8181 ./policy
+```
+Bu komut terminali meşgul eder ve sunucu açık kalmalıdır. Durdurmak için `Ctrl+C`.
+
+## 3) Sorguları çalıştırma
+
+Başka bir sekmede, yine `opa-authz` klasöründe:
 ```bash
 node check.js
 ```
@@ -48,21 +60,3 @@ curl -X POST localhost:8181/v1/data/httpapi/authz/allow \
   -d '{"input":{"user":{"name":"veli","role":"viewer"},"method":"GET","path":"/articles/1"}}'
 # {"result":true}
 ```
-
-## Politika testleri
-
-```bash
-docker run --rm -v "$(pwd)/policy:/policy" openpolicyagent/opa:latest test /policy -v
-```
-(veya yerel CLI ile: `opa test ./policy -v`)
-
-## Politikayı canlı değiştirme
-
-`policy/authz.rego` dosyasını düzenleyip OPA'yı yeniden başlatın (`docker compose restart opa`) ve `node check.js` ile sonucu görün. Uygulama kodunuza dokunmanıza gerek yok; OPA'nın asıl faydası budur.
-
-## Öğrenme notları
-
-- Rego **bildirimseldir**: bir kuralın gövdesindeki tüm satırlar doğruysa kural doğrudur. Aynı isimli birden fazla `allow` kuralı **VEYA** mantığıyla birleşir.
-- `default allow := false` ile "varsayılan red" güvenli bir başlangıçtır.
-- Bu örnekte `rego.v1` söz dizimi kullanıldı (`if`, `in` anahtar kelimeleri).
-- Üretimde OPA genellikle sidecar olarak çalışır; politikalar bundle olarak merkezi bir yerden dağıtılır.
